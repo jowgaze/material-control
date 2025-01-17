@@ -2,7 +2,6 @@ package io.github.materialcontrol.ms_users.services;
 
 import io.github.materialcontrol.ms_users.entities.enums.Role;
 import io.github.materialcontrol.ms_users.entities.user.User;
-import io.github.materialcontrol.ms_users.entities.user.dtos.UserUpdateDto;
 import io.github.materialcontrol.ms_users.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -13,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,27 +63,27 @@ public class UserServiceTests {
     public void getAllUsers_Void_ReturnsPageUsers() {
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
         List<User> userList = List.of(
-                new User(1L, "José", "123456", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
-                new User(2L, "Maria", "123456", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
-                new User(3L, "José Maria", "123456", ENCODED_PASSWORD, Role.ROLE_PUBLIC)
+                new User(1L, "José", "josezin", "jose@mail.com", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
+                new User(2L, "Maria", "mariazinha", "maria@mail.com", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
+                new User(3L, "José Maria", "josemaria", "josemaria@mail.com", ENCODED_PASSWORD, Role.ROLE_PUBLIC)
         );
         Page<User> userPage = new PageImpl<>(userList);
 
-        when(repository.findAll(pageable)).thenReturn(userPage);
+        when(repository.findByNameLikeIgnoreCase(pageable, "%%")).thenReturn(userPage);
 
-        Page<User> sut = service.findAll(pageable);
+        Page<User> sut = service.findAll(pageable, "");
 
         assertThat(sut).isNotNull();
         assertThat(sut.getSize()).isEqualTo(3);
     }
 
     @Test
-    public void getAllUsers_ByName_ReturnsPageUsers() {
+    public void getAllUsers_QueryName_ReturnsPageUsers() {
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "id"));
         List<User> userList = List.of(
-                new User(1L, "José", "josezin", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
-                new User(2L, "Maria", "mariazinha", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
-                new User(3L, "José Maria", "josemaria", ENCODED_PASSWORD, Role.ROLE_PUBLIC)
+                new User(1L, "José", "josezin", "jose@mail.com", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
+                new User(2L, "Maria", "mariazinha", "maria@mail.com", ENCODED_PASSWORD, Role.ROLE_PUBLIC),
+                new User(3L, "José Maria", "josemaria", "josemaria@mail.com", ENCODED_PASSWORD, Role.ROLE_PUBLIC)
         );
         Page<User> userPage = new PageImpl<>(userList
                 .stream()
@@ -94,11 +92,12 @@ public class UserServiceTests {
 
         when(repository.findByNameLikeIgnoreCase(pageable, "%maria%")).thenReturn(userPage);
 
-        Page<User> sut = service.findByName(pageable, "maria");
+        Page<User> sut = service.findAll(pageable, "maria");
 
         assertThat(sut).isNotNull();
         assertThat(sut.getSize()).isEqualTo(2);
         assertThat(sut.stream().toList().get(0).getUsername()).isEqualTo("mariazinha");
+        assertThat(sut.stream().toList().get(0).getEmail()).isEqualTo("maria@mail.com");
     }
 
     @Test
@@ -121,5 +120,17 @@ public class UserServiceTests {
         service.updatePassword(1L, USER_UPDATE_PASSWORD_DTO);
 
         assertThat(VALID_USER_SAVED.getPassword()).isEqualTo(ENCODED_PASSWORD_UPDATE);
+    }
+
+    @Test
+    public void employeeUpdate_Void_ReturnsVoid(){
+        when(repository.findById(1L)).thenReturn(Optional.of(VALID_USER_SAVED));
+
+        service.employeeUpdate(1L);
+        assertThat(VALID_USER_SAVED.getRole()).isEqualTo(Role.ROLE_EMPLOYEE);
+
+        service.employeeUpdate(1L);
+        assertThat(VALID_USER_SAVED.getRole()).isEqualTo(Role.ROLE_PUBLIC);
+
     }
 }
