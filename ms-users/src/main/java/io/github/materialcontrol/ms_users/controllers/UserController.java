@@ -82,7 +82,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/assword")
+    @PatchMapping("/{id}/password")
     public ResponseEntity<Void> updatePassword(@PathVariable("id") Long id, @RequestBody @Valid UserUpdatePasswordDto body) {
         userService.updatePassword(id, body);
         return ResponseEntity.noContent().build();
