@@ -1,5 +1,6 @@
 package io.github.materialcontrol.ms_users.services;
 
+import io.github.materialcontrol.ms_users.entities.enums.Role;
 import io.github.materialcontrol.ms_users.entities.user.User;
 import io.github.materialcontrol.ms_users.entities.user.dtos.UserUpdateDto;
 import io.github.materialcontrol.ms_users.entities.user.dtos.UserUpdatePasswordDto;
@@ -42,12 +43,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<User> findByName(Pageable pageable, String name) {
+    public Page<User> findAll(Pageable pageable, String name) {
         name = "%" + name + "%";
         return userRepository.findByNameLikeIgnoreCase(pageable, name);
     }
@@ -95,4 +91,15 @@ public class UserService {
         user.setPassword(encoder.encode(passwords.getNewPassword()));
     }
 
+    @Transactional
+    public void employeeUpdate(Long id) {
+        User user = findById(id);
+
+        if (!user.getRole().equals(Role.ROLE_ADMIN)) {
+            if (user.getRole().equals(Role.ROLE_PUBLIC))
+                user.setRole(Role.ROLE_EMPLOYEE);
+            else
+                user.setRole(Role.ROLE_PUBLIC);
+        }
+    }
 }

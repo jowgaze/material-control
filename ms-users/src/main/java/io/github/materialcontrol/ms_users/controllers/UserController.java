@@ -37,32 +37,17 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<Page<UserResponseDto>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
-            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
-
-        Direction sortDirection = direction.equalsIgnoreCase("desc") ? Direction.DESC : Direction.ASC;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "id"));
-
-        Page<UserResponseDto> users = UserMapper.toPage(userService.findAll(pageable));
-        return ResponseEntity.ok().body(users.map(item -> item
-                .add(linkTo(methodOn(UserController.class).findById(item.getId())).withSelfRel()))
-        );
-    }
-
-    @GetMapping("/findByName/{name}")
-    public ResponseEntity<Page<UserResponseDto>> findByName(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "5") Integer size,
             @RequestParam(value = "direction", defaultValue = "asc") String direction,
-            @PathVariable("name") String name) {
+            @RequestParam(value = "name", defaultValue = "") String name) {
 
         Direction sortDirection = direction.equalsIgnoreCase("desc") ? Direction.DESC : Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "id"));
 
-        Page<UserResponseDto> users = UserMapper.toPage(userService.findByName(pageable, name));
+        Page<UserResponseDto> users = UserMapper.toPage(userService.findAll(pageable, name));
         return ResponseEntity.ok().body(users.map(item -> item
                 .add(linkTo(methodOn(UserController.class).findById(item.getId())).withSelfRel()))
         );
@@ -82,9 +67,15 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/password")
+    @PatchMapping("{id}/password")
     public ResponseEntity<Void> updatePassword(@PathVariable("id") Long id, @RequestBody @Valid UserUpdatePasswordDto body) {
         userService.updatePassword(id, body);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("{id}/employee-status")
+    public ResponseEntity<Void> employeeUpdate(@PathVariable("id") Long id){
+        userService.employeeUpdate(id);
         return ResponseEntity.noContent().build();
     }
 }
