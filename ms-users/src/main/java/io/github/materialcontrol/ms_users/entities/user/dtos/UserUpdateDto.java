@@ -1,4 +1,5 @@
 package io.github.materialcontrol.ms_users.entities.user.dtos;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +16,7 @@ public class UserUpdateDto {
 
     @Size(min = 3, max = 50)
     private String username;
+
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(?:\\.[a-zA-Z]{2,})?$")
+    private String email;
 }

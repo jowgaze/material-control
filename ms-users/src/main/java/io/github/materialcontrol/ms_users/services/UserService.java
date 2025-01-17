@@ -67,6 +67,17 @@ public class UserService {
             }
         }
 
+        if (update.getEmail() != null) {
+            if (!update.getEmail().equals(user.getEmail())) {
+                if (userRepository.existsUserByEmail(update.getEmail())) {
+                    throw new UniqueAttributeViolationException(
+                            String.format("Email = %s already exists", update.getEmail())
+                    );
+                }
+                user.setEmail(update.getEmail());
+            }
+        }
+
         if (update.getName() != null)
             user.setName(update.getName());
     }

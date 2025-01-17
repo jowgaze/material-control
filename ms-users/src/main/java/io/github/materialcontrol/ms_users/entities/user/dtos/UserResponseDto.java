@@ -14,5 +14,6 @@ public class UserResponseDto extends RepresentationModel<UserResponseDto> {
     private Long id;
     private String name;
     private String username;
+    private String email;
     private String role;
 }
