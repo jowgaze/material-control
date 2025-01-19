@@ -1,8 +1,6 @@
 package io.github.materialcontrol.ms_materials.services;
 
-import io.github.materialcontrol.ms_materials.controllers.ItemController;
 import io.github.materialcontrol.ms_materials.controllers.MaterialController;
-import io.github.materialcontrol.ms_materials.entities.item.dtos.ItemResponseDto;
 import io.github.materialcontrol.ms_materials.entities.material.Material;
 import io.github.materialcontrol.ms_materials.entities.material.dtos.MaterialResponseDto;
 import io.github.materialcontrol.ms_materials.exceptions.NotFoundException;

@@ -5,7 +5,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import io.github.materialcontrol.ms_materials.controllers.ItemController;
 import io.github.materialcontrol.ms_materials.entities.item.Item;
-import io.github.materialcontrol.ms_materials.entities.item.dtos.ItemRequestDto;
 import io.github.materialcontrol.ms_materials.entities.item.dtos.ItemResponseDto;
 import io.github.materialcontrol.ms_materials.entities.item.enums.Status;
 import io.github.materialcontrol.ms_materials.entities.material.Material;

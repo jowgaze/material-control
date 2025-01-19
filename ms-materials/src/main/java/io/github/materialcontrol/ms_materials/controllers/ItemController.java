@@ -14,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +61,7 @@ public class ItemController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ItemResponseDto> updateStatus(@PathVariable("id") Long id){
+    public ResponseEntity<ItemResponseDto> updateStatus(@PathVariable("id") Long id) {
         Item item = itemService.updateStatus(id);
         ItemResponseDto dto = itemService.addHateoes(ItemMapper.toDto(item));
 
