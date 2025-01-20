@@ -20,7 +20,8 @@ public class MsCloudgatewayApplication {
 		return builder
 				.routes()
 					.route(r -> r.path("/api/v1/users/**").uri("lb://ms-users"))
-					.route(r -> r.path("/api/v1/materials/**").uri("lb://ms-materials"))
+					.route(r -> r.path("/api/v1/materials/**", "/api/v1/items/**").uri("lb://ms-materials"))
+					.route(r -> r.path("/api/v1/loan/**").uri("lb://ms-loan"))
 				.build();
 	}
 }
