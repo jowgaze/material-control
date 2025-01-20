@@ -60,7 +60,7 @@ public class ItemController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/status")
+    @PutMapping("/{id}/status")
     public ResponseEntity<ItemResponseDto> updateStatus(@PathVariable("id") Long id) {
         Item item = itemService.updateStatus(id);
         ItemResponseDto dto = itemService.addHateoes(ItemMapper.toDto(item));

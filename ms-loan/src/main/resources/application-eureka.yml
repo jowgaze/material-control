@@ -1,10 +1,10 @@
 spring:
   application:
-    name: ms-materials
+    name: ms-loan
   jpa:
     hibernate: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: ${PG_URL:jdbc:postgresql://localhost:5432/db_materials}
+    url: ${PG_URL:jdbc:postgresql://localhost:5432/db_loan}
     username: ${PG_USERNAME:postgres}
     password: ${PG_PASSWORD:root}
 
@@ -20,7 +20,7 @@ eureka:
 
 springdoc:
   swagger-ui:
-    path: /ms-materials/index.html
+    path: /ms-loan/index.html
   api-docs:
-    path: /ms-materials
-  packages-to-scan: io.github.materialcontrol.ms_materials.controllers
+    path: /ms-loan
+  packages-to-scan: io.github.materialcontrol.ms_loan.controllers
