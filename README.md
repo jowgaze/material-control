@@ -13,6 +13,10 @@ Bem-vindo ao projeto **Material Control API**, uma aplicação desenvolvida para
 
 ## Estrutura do Projeto
 
+Diagrama de Classes:
+
+![Diagrama de Classes](https://www.plantuml.com/plantuml/png/bPFFJiCm3CRlVGehHwHESEMqZlLGAVkZJKFYX4BhRHLDCYKf7D3UdJYoeDsGW1oQwXVtysV7dVgWNEXrbtMu3n0ikFPm3D2q3klGMfDb9rM_gWE2q3xlFJelu2E3kEfEUG-xY0Zmoa5QSu2s6P1jS6raHccyfYJvyyafohzRDrJQs0x1nKTYvonjQ7gTJWOsDYjPFXVpHRKSe_Lk9gk7CIiNQxbwAalMF8zBrYgWQrN7PNEwRL2XzuE4nMDHoM8coo-oMuuOk-MkLG7rtxfMsmO7b1Fxj5thBjZjFs-4DP8hSJkPt0Z8Sn1tublm7aHjzSbw59Sjwgmouw6GaVnYOHw5WRwabqlkCFJkyeHDsnUFxatHS8uIy2nLpLNQW9ffkbsQMAgDIkHYoIzLU5G-UV8Y8yHHQQFUK8Z3FJeqDSQOAPg6_frF)
+
 O repositório está organizado nas seguintes pastas e arquivos principais:
 
 - **eurekaserver**: Serviço de registro e descoberta para os microsserviços.
