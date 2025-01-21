@@ -1,0 +1,81 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  eurekaserver:
+    build: eurekaserver
+    environment:
+      - EUREKA_NAME=eureka
+      - EUREKA_PASSWORD=eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network
+
+  ms-users:
+    build: ms-users
+    environment:
+      - PG_URL=jdbc:postgresql://postgres:5432/db_users
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=root
+      - EUREKA_DEFAULT_ZONE=http://eureka:eureka@eurekaserver:8761/eureka
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  ms-materials:
+    build: ms-materials
+    environment:
+      - PG_URL=jdbc:postgresql://postgres:5432/db_materials
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=root
+      - EUREKA_DEFAULT_ZONE=http://eureka:eureka@eurekaserver:8761/eureka
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  ms-loan:
+    build: ms-loan
+    environment:
+      - PG_URL=jdbc:postgresql://postgres:5432/db_loan
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=root
+      - EUREKA_DEFAULT_ZONE=http://eureka:eureka@eurekaserver:8761/eureka
+    depends_on:
+      - postgres
+      - ms-users
+      - ms-materials
+    networks:
+      - app-network
+
+  ms-cloudgateway:
+    build: ms-cloudgateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_DEFAULT_ZONE=http://eureka:eureka@eurekaserver:8761/eureka
+    depends_on:
+      - eurekaserver
+      - ms-users
+      - ms-materials
+      - ms-loan
+    networks:
+      - app-network
+
+  postgres:
+    container_name: "postgres"
+    image: "postgres:latest"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - app-network

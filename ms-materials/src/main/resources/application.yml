@@ -1,3 +1,26 @@
 spring:
-  profiles:
-    active: dev
+  application:
+    name: ms-materials
+  jpa:
+    hibernate: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: ${PG_URL:jdbc:postgresql://localhost:5432/db_materials}
+    username: ${PG_USERNAME:postgres}
+    password: ${PG_PASSWORD:root}
+
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://eureka:eureka@localhost:8761/eureka}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+springdoc:
+  swagger-ui:
+    path: /ms-materials/index.html
+  api-docs:
+    path: /ms-materials
+  packages-to-scan: io.github.materialcontrol.ms_materials.controllers

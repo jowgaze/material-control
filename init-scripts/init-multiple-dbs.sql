@@ -1,0 +1,3 @@
+CREATE DATABASE db_users;
+CREATE DATABASE db_materials;
+CREATE DATABASE db_loan;
